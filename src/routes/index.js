@@ -5,6 +5,7 @@ import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
 import VerifyAccount from "@/views/VerifyAccount.vue";
 import Category from "@/views/Admin/Category.vue";
+import Product from "@/views/Admin/Product.vue";
 
 
 const routes = [
@@ -36,8 +37,16 @@ const routes = [
     component: VerifyAccount,
   },
   {
+
     path: "/category",
     component: Category,
+    meta: {
+      layout: "Dashboard",
+    },
+  },
+{
+    path: "/product",
+    component: Product,
     meta: {
       layout: "Dashboard",
     },
