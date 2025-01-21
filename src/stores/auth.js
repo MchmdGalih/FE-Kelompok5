@@ -15,11 +15,7 @@ export const authStore = defineStore("auth", () => {
       : null
   );
 
-  const isLoading = ref(false);
-
   async function register({ name, email, password, password_confirmation }) {
-    isLoading.value = true;
-
     try {
       const { data } = await apiClient.post("/auth/register", {
         name,
@@ -34,13 +30,10 @@ export const authStore = defineStore("auth", () => {
       router.replace("/login");
     } catch (error) {
       console.log(error.message);
-    } finally {
-      isLoading.value = false;
     }
   }
 
   async function login({ email, password }) {
-    isLoading.value = true;
     try {
       const { data } = await apiClient.post("/auth/login", { email, password });
       token.value = data.token;
@@ -49,10 +42,56 @@ export const authStore = defineStore("auth", () => {
       localStorage.setItem("user", JSON.stringify(currentUser.value));
     } catch (error) {
       console.log(error.message);
-    } finally {
-      isLoading.value = false;
     }
   }
 
-  return { token, register, currentUser, isLoading, login };
+  async function logout() {
+    try {
+      const { data } = await apiClient.post("/auth/logout", null, {
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+        },
+      });
+
+      token.value = null;
+      localStorage.removeItem("token");
+      currentUser.value = null;
+      localStorage.removeItem("user");
+
+      alert(data.message);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+  async function getUserLogged() {
+    try {
+      const { data } = await apiClient.get("/auth/me", {
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+        },
+      });
+
+      currentUser.value = data.data;
+      localStorage.setItem("user", JSON.stringify(currentUser.value));
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  // async function verifyAccount(otp) {
+  //   try {
+  //     const { data } = await apiClient.post("/auth/verify-account", {
+
+  //     })
+  //   } catch (error) {}
+  // }
+
+  return {
+    token,
+    register,
+    currentUser,
+    login,
+    logout,
+    getUserLogged,
+  };
 });
