@@ -97,13 +97,10 @@ const onReset = () => {
 const onSubmit = async () => {
   if (props.isRegister) {
     await auth.register(formData);
-
     onReset();
-    router.replace("/login");
   } else {
     await auth.login(formData);
     onReset();
-    router.replace("/");
   }
 };
 </script>
