@@ -38,6 +38,7 @@ export const authStore = defineStore("auth", () => {
       localStorage.setItem("token", token.value);
       currentUser.value = data.user;
       localStorage.setItem("user", JSON.stringify(currentUser.value));
+      router.replace("/login");
     } catch (error) {
       console.log(error.message);
     }
@@ -57,6 +58,7 @@ export const authStore = defineStore("auth", () => {
       localStorage.removeItem("user");
 
       alert(data.message);
+      router.replace("/login");
     } catch (error) {
       console.log(error.message);
     }
@@ -90,6 +92,7 @@ export const authStore = defineStore("auth", () => {
       getUserLogged();
       const succesMessage = data.message;
       alert(succesMessage);
+      router.replace("/");
     } catch (error) {
       console.log(error.message);
     }

@@ -8,9 +8,11 @@
         type="text"
         placeholder="username"
         class="input input-bordered"
-        required
         v-model="formData.name"
       />
+      <p class="invalid" v-for="error of v$.name.$errors" :key="error.$uid">
+        {{ error.$message }}
+      </p>
     </div>
 
     <div class="form-control">
@@ -21,10 +23,12 @@
         type="email"
         placeholder="email"
         class="input input-bordered"
-        required
         v-model="formData.email"
       />
     </div>
+    <p class="invalid" v-for="error of v$.email.$errors" :key="error.$uid">
+      {{ error.$message }}
+    </p>
     <div class="form-control">
       <label class="label">
         <span class="label-text">Password</span>
@@ -33,10 +37,12 @@
         type="password"
         placeholder="password"
         class="input input-bordered"
-        required
         v-model="formData.password"
       />
     </div>
+    <p class="invalid" v-for="error of v$.password.$errors" :key="error.$uid">
+      {{ error.$message }}
+    </p>
 
     <div class="form-control" v-if="isRegister">
       <label class="label">
@@ -46,15 +52,19 @@
         type="password"
         placeholder="password"
         class="input input-bordered"
-        required
         v-model="formData.password_confirmation"
       />
+      <p class="invalid" v-for="error of v$.name.$errors" :key="error.$uid">
+        {{ error.$message }}
+      </p>
     </div>
     <p>
       {{ isRegister ? "sudah punya akun?" : "belum punya akun?" }}
-      <RouterLink :to="isRegister ? '/login' : '/register'">{{
-        isRegister ? "Login" : "Register"
-      }}</RouterLink>
+      <RouterLink
+        :to="isRegister ? '/login' : '/register'"
+        class="text-blue-500"
+        >{{ isRegister ? "Login" : "Register" }}</RouterLink
+      >
     </p>
 
     <div class="form-control mt-6">
@@ -67,12 +77,20 @@
 
 <script setup>
 import { authStore } from "@/stores/auth";
-import { reactive } from "vue";
-import { RouterLink, useRouter } from "vue-router";
-const router = useRouter();
+import { computed, reactive } from "vue";
+import { useVuelidate } from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
+
+const rules = computed(() => {
+  return {
+    name: { required },
+    email: { required },
+    password: { required },
+    password_confirmation: { required },
+  };
+});
 
 const auth = authStore();
-
 const props = defineProps({
   isRegister: {
     type: Boolean,
@@ -86,6 +104,7 @@ const formData = reactive({
   password: "",
   password_confirmation: "",
 });
+const v$ = useVuelidate(rules, formData);
 
 const onReset = () => {
   formData.name = "";
@@ -95,6 +114,12 @@ const onReset = () => {
 };
 
 const onSubmit = async () => {
+  v$.value.$touch();
+
+  if (v$.value.$invalid) {
+    return;
+  }
+
   if (props.isRegister) {
     await auth.register(formData);
     onReset();
@@ -104,3 +129,9 @@ const onSubmit = async () => {
   }
 };
 </script>
+
+<style scoped>
+.invalid {
+  color: red;
+}
+</style>
