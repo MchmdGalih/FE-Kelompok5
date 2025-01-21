@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer bg-neutral text-neutral-content p-10">
+  <footer class="footer bg-teal-700 text-neutral-content p-10">
     <nav>
       <h6 class="footer-title">Services</h6>
       <a class="link link-hover">Branding</a>
@@ -20,6 +20,6 @@
       <a class="link link-hover">Privacy policy</a>
       <a class="link link-hover">Cookie policy</a>
     </nav>
-    <div class="2-xl text-white font-roboto "></div>
+    <div class="2-xl text-white font-roboto"></div>
   </footer>
 </template>
