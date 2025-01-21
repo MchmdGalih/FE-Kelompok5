@@ -3,7 +3,7 @@
     <nav>
       <h6 class="footer-title">Services</h6>
       <a class="link link-hover">Branding</a>
-      <a class="link link-hover">Design</a>
+      <a class="link link-hover">Product</a>
       <a class="link link-hover">Marketing</a>
       <a class="link link-hover">Advertisement</a>
     </nav>
@@ -20,5 +20,6 @@
       <a class="link link-hover">Privacy policy</a>
       <a class="link link-hover">Cookie policy</a>
     </nav>
+    <div class="2-xl text-white font-roboto "></div>
   </footer>
 </template>
