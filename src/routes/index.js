@@ -4,6 +4,8 @@ import Dashboard from "@/views/Admin/Dashboard.vue";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
 import VerifyAccount from "@/views/VerifyAccount.vue";
+import Category from "@/views/Admin/Category.vue";
+
 
 const routes = [
   {
@@ -33,6 +35,14 @@ const routes = [
     path: "/verify-account",
     component: VerifyAccount,
   },
+  {
+    path: "/category",
+    component: Category,
+    meta: {
+      layout: "Dashboard",
+    },
+  },
+
 ];
 
 const router = createRouter({

@@ -1,7 +1,6 @@
 <template>
   <DefaultLayout>
     <Hero />
-
     <div class="py-4">
       <Search />
 
