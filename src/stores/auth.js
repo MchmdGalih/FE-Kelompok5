@@ -5,9 +5,7 @@ import { apiClient } from "@/config/api";
 
 export const authStore = defineStore("auth", () => {
   const token = ref(
-    localStorage.getItem("token")
-      ? JSON.parse(localStorage.getItem("token"))
-      : null
+    localStorage.getItem("token") ? localStorage.getItem("token") : null
   );
   const currentUser = ref(
     localStorage.getItem("user")
@@ -78,13 +76,43 @@ export const authStore = defineStore("auth", () => {
     }
   }
 
-  // async function verifyAccount(otp) {
-  //   try {
-  //     const { data } = await apiClient.post("/auth/verify-account", {
+  async function verifyAccount(otp) {
+    try {
+      const { data } = await apiClient.post(
+        "/auth/account_verification",
+        { otp },
+        {
+          headers: {
+            Authorization: `Bearer ${token.value}`,
+          },
+        }
+      );
+      getUserLogged();
+      const succesMessage = data.message;
+      alert(succesMessage);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
 
-  //     })
-  //   } catch (error) {}
-  // }
+  async function generateOtp(email) {
+    try {
+      const { data } = await apiClient.post(
+        "/auth/generate_otp_code",
+        { email },
+        {
+          headers: {
+            Authorization: `Bearer ${token.value}`,
+          },
+        }
+      );
+
+      const successMessage = data.message;
+      alert(successMessage);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
 
   return {
     token,
@@ -93,5 +121,7 @@ export const authStore = defineStore("auth", () => {
     login,
     logout,
     getUserLogged,
+    verifyAccount,
+    generateOtp,
   };
 });

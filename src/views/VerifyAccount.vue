@@ -13,7 +13,7 @@
           </p>
         </div>
 
-        <!-- <form @submit.prevent="onVerifyAccount" class="mt-6 space-y-4">
+        <form @submit.prevent="onVerifyAccount" class="mt-6 space-y-4">
           <div>
             <label class="block text-sm font-medium text-gray-700">
               Masukkan Kode OTP
@@ -32,17 +32,17 @@
           >
             Verifikasi
           </button>
-        </form> -->
+        </form>
 
         <div class="mt-4 text-center">
           <p class="text-sm text-gray-600">
             Tidak menerima email?
-            <!-- <button
+            <button
               @click="resendCode"
               class="font-medium text-blue-600 hover:underline"
             >
               Kirim Ulang
-            </button> -->
+            </button>
           </p>
         </div>
       </div>
@@ -50,4 +50,19 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { authStore } from "@/stores/auth";
+import { onMounted, ref } from "vue";
+
+const auth = authStore();
+const otp_code = ref(null);
+
+const onVerifyAccount = () => {
+  auth.verifyAccount(otp_code.value);
+  otp_code.value = "";
+};
+
+const resendCode = () => {
+  auth.generateOtp(auth.currentUser.email);
+};
+</script>
