@@ -1,6 +1,6 @@
 <template>
   <DefaultLayout>
-    <h1>Ini home page</h1>
+    <Header />
   </DefaultLayout>
 </template>
 
