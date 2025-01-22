@@ -114,18 +114,14 @@ const onReset = () => {
 };
 
 const onSubmit = async () => {
-  v$.value.$touch();
+  // v$.value.$touch();
 
-  if (v$.value.$invalid) {
-    return;
-  }
+  // if (v$.value.$invalid) return;
 
   if (props.isRegister) {
     await auth.register(formData);
-    onReset();
   } else {
     await auth.login(formData);
-    onReset();
   }
 };
 </script>

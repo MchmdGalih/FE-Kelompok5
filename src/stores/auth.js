@@ -2,8 +2,11 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 
 import { apiClient } from "@/config/api";
+import { useRouter } from "vue-router";
 
 export const authStore = defineStore("auth", () => {
+  const router = useRouter();
+
   const token = ref(
     localStorage.getItem("token") ? localStorage.getItem("token") : null
   );
@@ -38,7 +41,7 @@ export const authStore = defineStore("auth", () => {
       localStorage.setItem("token", token.value);
       currentUser.value = data.user;
       localStorage.setItem("user", JSON.stringify(currentUser.value));
-      router.replace("/login");
+      router.replace("/verify-account");
     } catch (error) {
       console.log(error.message);
     }
