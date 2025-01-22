@@ -56,6 +56,7 @@ import { useProductsStore } from "@/stores/product";
 import { formatter } from "@/utils/formatted";
 import Default from "@/layouts/Default.vue";
 import ModalOrder from "@/components/Modal/ModalOrder.vue";
+import { apiClient } from "@/config/api";
 
 const route = useRoute();
 const id = route.params.id;
@@ -63,8 +64,39 @@ const stores = useProductsStore();
 const productDetail = ref({});
 const showModal = ref(false);
 
-const handleSubmit = (data) => {
+const handleSubmit = async (data) => {
   showModal.value = data[1];
+  data.address = "JL.Bismillah";
+  data.quantity = 2;
+  data.total_price = 100000;
+  try {
+    const res = await apiClient.post("/order", data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+
+    const snapToken = res.data.snap_token;
+    snap.pay(snapToken, {
+      onSuccess: function (result) {
+        console.log("success");
+        console.log(result);
+      },
+      onPending: function (result) {
+        console.log("pending");
+        console.log(result);
+      },
+      onError: function (result) {
+        console.log("error");
+        console.log(result);
+      },
+      onClose: function () {
+        console.log("customer closed the popup without finishing the payment");
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 const openModal = () => {
   showModal.value = true;

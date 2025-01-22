@@ -72,6 +72,10 @@ const closeModal = () => {
 };
 
 const order = () => {
-  emit("kirim-data", [data, false]);
+  emit("kirim-data", {
+    product_id: props.dataProps.id,
+    first_name: data.first_name,
+    last_name: data.last_name,
+  });
 };
 </script>
