@@ -8,6 +8,7 @@ import Category from "@/views/Admin/Category.vue";
 import CategoryDetail from "@/views/CategoryDetail.vue";
 import Product from "@/views/Admin/Product.vue";
 import Profile from "@/views/Profile.vue";
+import DetailProduct from "@/views/DetailProduct.vue";
 
 const routes = [
   {
@@ -21,6 +22,13 @@ const routes = [
   {
     path: "/profile/:id",
     component: Profile,
+    meta: {
+      layout: "Default",
+    },
+  },
+  {
+    path: "/product/:id",
+    component: DetailProduct,
     meta: {
       layout: "Default",
     },

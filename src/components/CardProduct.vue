@@ -10,14 +10,20 @@
     <div class="card-body">
       <h2 class="card-title">{{ data.name }}</h2>
       <p>{{ data.description }}</p>
+      <p>{{ formatter.format(data.price) }}</p>
+      <p>stock: {{ data.stock }}</p>
       <div class="card-actions justify-end">
-        <button class="btn btn-primary">Buy Now</button>
+        <RouterLink :to="`/product/${data.id}`" class="btn btn-primary"
+          >Buy Now</RouterLink
+        >
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { formatter } from "@/utils/formatted";
+import { RouterLink } from "vue-router";
 const props = defineProps({
   dataProps: {
     type: Array,

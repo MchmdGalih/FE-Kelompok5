@@ -13,18 +13,14 @@ export const useProductsStore = defineStore("product", () => {
     } catch (error) {
       console.log(error.message);
     }
-
-    
   };
 
-  const addProduct = async (product) => {
+  const getProductById = async (id) => {
     try {
-      const response = await apiClient.post("/product", product);
-      console.log(response.data.data)
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
+      const response = await apiClient.get(`/product/${id}`);
+      return response.data.data;
+    } catch (error) {}
+  };
 
-  return { products, getProduct, addProduct };
+  return { products, getProduct, getProductById };
 });

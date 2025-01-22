@@ -1,7 +1,9 @@
 <template>
   <div class="navbar bg-teal-700 px-6">
     <div class="flex-1 gap-3">
-      <a class="btn btn-ghost text-white font-bold text-4xl">TokoKita</a>
+      <RouterLink to="/" class="btn btn-ghost normal-case text-3xl"
+        >TokoKita</RouterLink
+      >
     </div>
     <div class="flex-none">
       <div class="dropdown dropdown-end">
@@ -71,7 +73,6 @@
 
 <script setup>
 import { authStore } from "@/stores/auth";
-
 const auth = authStore();
 const user = auth.currentUser;
 </script>

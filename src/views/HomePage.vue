@@ -2,7 +2,6 @@
   <DefaultLayout>
     <Hero />
 
-    <!-- <Search /> -->
 
     <div class="py-6 px-10 mt-4">
       <h1 class="text-4xl font-bold text-center text-black mb-2">
