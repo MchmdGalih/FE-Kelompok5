@@ -6,12 +6,21 @@ import Register from "@/views/Register.vue";
 import VerifyAccount from "@/views/VerifyAccount.vue";
 import Category from "@/views/Admin/Category.vue";
 import Product from "@/views/Admin/Product.vue";
+import Profile from "@/views/Profile.vue";
 
 
 const routes = [
   {
     path: "/",
     component: HomePage,
+    meta: {
+      layout: "Default",
+    },
+  },
+
+  {
+    path: "/profile/:id",
+    component: Profile,
     meta: {
       layout: "Default",
     },
@@ -38,14 +47,15 @@ const routes = [
   },
   {
 
-    path: "/category",
+    path: "/dashboard/category",
     component: Category,
     meta: {
       layout: "Dashboard",
     },
   },
+
 {
-    path: "/product",
+    path: "/dashboard/product",
     component: Product,
     meta: {
       layout: "Dashboard",
