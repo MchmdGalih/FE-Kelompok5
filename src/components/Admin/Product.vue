@@ -56,11 +56,11 @@ v-model="data.name"
       </label>
       <label class="form-control w-full">
         <div class="label">
-          <span class="label-text">Genre</span>
+          <span class="label-text">Category</span>
         </div>
         <select class="select select-bordered" v-model="data.category_id">
           <option disabled selected></option>
-          <option v-for="item in category" :key="item.id" :value="item.id">
+          <option v-for="item in category.category" :key="item.id" :value="item.id">
             {{ item.name }}
           </option>
         </select>
@@ -75,9 +75,11 @@ v-model="data.name"
  import { apiClient } from "@/config/api";
   import { reactive, onMounted, ref } from "vue";
   import { useRouter } from "vue-router";
-  import { useAuthStore } from "@/stores/auth";
+  import { authStore } from "@/stores/auth";
+import { useCategoryStore } from "@/stores/category";
   
-  const authStore = useAuthStore();
+  const beAuthStore = authStore();
+  const category = useCategoryStore()
   const router = useRouter();
 const props = defineProps({
     isEdit: {
@@ -99,10 +101,14 @@ const props = defineProps({
     stock: "",
   });
 
-  const category = ref([]);
+
   const getCategory = async () => {
-    const { data } = await apiClient.get("/category");
-    category.value = data.data;  
+    try {
+      const res = await category.getCategory();
+      console.log(res)
+    } catch (error) {
+    console.log(error.message)      
+    }
   };
   
   const handleImage = (e) => {
@@ -130,11 +136,11 @@ const props = defineProps({
   
     if (props.isEdit) {
       await apiClient.post(`/product/${data.id}?_method=put`, formData, {
-        headers: { Authorization: `Bearer ${authStore.tokenUser}` },
+        headers: { Authorization: `Bearer ${beAuthStore.tokenUser}` },
       });
     } else {
       await apiClient.post("/product", formData, {
-        headers: { Authorization: `Bearer ${authStore.tokenUser}` },
+        headers: { Authorization: `Bearer ${beAuthStore.tokenUser}` },
       });
     }
     router.push("/product");
