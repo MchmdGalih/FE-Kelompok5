@@ -1,5 +1,4 @@
 <template>
-
     <h1 class="text-3xl text-info text-center">Halaman Category</h1>
     <section class="my-3" v-show="inputAction">
         <h2 class="text-lg text-info">{{ isEdit ? "Edit" : "Tambah" }} category</h2>
@@ -30,6 +29,9 @@
                     Add
                 </button>
             </div>
+            <!-- <button >
+
+            </button> -->
       <table class="table table-zebra">
         <thead>
           <tr>

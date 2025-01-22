@@ -5,9 +5,9 @@ import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
 import VerifyAccount from "@/views/VerifyAccount.vue";
 import Category from "@/views/Admin/Category.vue";
+import CategoryDetail from "@/views/CategoryDetail.vue";
 import Product from "@/views/Admin/Product.vue";
 import Profile from "@/views/Profile.vue";
-
 
 const routes = [
   {
@@ -32,7 +32,6 @@ const routes = [
       layout: "Dashboard",
     },
   },
-
   {
     path: "/login",
     component: Login,
@@ -53,7 +52,13 @@ const routes = [
       layout: "Dashboard",
     },
   },
-
+  {
+    path: "/category/:id",
+    component: CategoryDetail,
+    meta: {
+      layout: "Default",
+    },
+  },
 {
     path: "/dashboard/product",
     component: Product,
@@ -61,7 +66,6 @@ const routes = [
       layout: "Dashboard",
     },
   },
-
 ];
 
 const router = createRouter({
