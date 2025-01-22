@@ -30,49 +30,49 @@
                 </button>
             </div>
             <!-- <button >
+
             </button> -->
-            <table class="table table-zebra">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Name</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(item, key) in categoryData" :key="item.id">
-                        <th>{{ key + 1 }}</th>
-                        <td>{{ item.name }}</td>
-                        <td class="flex gap-5">
-                            <input 
-                                type="button" 
-                                class="btn btn-primary btn-sm" 
-                                value="Edit" 
-                                @click="handleEdit(item)"
-                            />
-                            <input 
-                                type="button" 
-                                class="btn btn-error btn-sm" 
-                                value="Delete" 
-                                @click="handleDelete(item.id)"
-                            />
-                            <!-- <input 
+      <table class="table table-zebra">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, key) in categoryData" :key="item.id">
+            <th>{{ key + 1 }}</th>
+            <td>{{ item.name }}</td>
+            <td class="flex gap-5">
+              <input
+                type="button"
+                class="btn btn-primary btn-sm"
+                value="Edit"
+                @click="handleEdit(item)"
+              />
+              <input
+                type="button"
+                class="btn btn-error btn-sm"
+                value="Delete"
+                @click="handleDelete(item.id)"
+              />
+              <!-- <input 
                                 type="button" 
                                 class="btn btn-error btn-sm" 
                                 value="Add" 
                                 @click="tambahForm(item.id)"
                             /> -->
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-            
-    </section>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 </template>
 
 <script setup>
-import { apiClient } from "../config/api"; 
+import { apiClient } from "../config/api";
 import { onMounted, ref } from "vue";
 
 const nameCategory = ref("");
@@ -82,75 +82,80 @@ const isEdit = ref(false);
 const id = ref(null);
 
 const handleDelete = async (id) => {
-    try {
-        const deleteCategory = await apiClient.post(`/category/${id}?_method=DELETE`);
-        alert(deleteCategory.data.message);
-        await fetchCategory();
-    } catch (error) {
-        console.error("Error deleting category:", error);
-    } finally {
-        clearInputForm();
-        closeForm();
-    }
+  try {
+    const deleteCategory = await apiClient.post(
+      `/category/${id}?_method=DELETE`
+    );
+    alert(deleteCategory.data.message);
+    await fetchCategory();
+  } catch (error) {
+    console.error("Error deleting category:", error);
+  } finally {
+    clearInputForm();
+    closeForm();
+  }
 };
 
 const clearInputForm = () => {
-    nameCategory.value = "";
-    isEdit.value = false;
-    id.value = null;
+  nameCategory.value = "";
+  isEdit.value = false;
+  id.value = null;
 };
 
 const tambahForm = () => {
-    clearInputForm();
-    inputAction.value = true;
+  clearInputForm();
+  inputAction.value = true;
 };
 
 const handleEdit = (item) => {
-    inputAction.value = true;
-    isEdit.value = true;
-    id.value = item.id;
-    nameCategory.value = item.name;
+  inputAction.value = true;
+  isEdit.value = true;
+  id.value = item.id;
+  nameCategory.value = item.name;
 };
 
 const closeForm = () => {
-    inputAction.value = false;
+  inputAction.value = false;
 };
 
 const fetchCategory = async () => {
-    try {
-        const { data } = await apiClient.get("/category");
-        categoryData.value = data.data;
-    } catch (error) {
-        console.error("Error fetching categories:", error);
-    }
+  try {
+    const { data } = await apiClient.get("/category");
+    categoryData.value = data.data;
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+  }
 };
 
 const actionCategory = async () => {
-    try {
-        if (isEdit.value) {
-            // edit
-            const updateCategory = await apiClient.post(`/category/${id.value}?_method=PUT`, {
-                name: nameCategory.value,
-            });
-            alert(updateCategory.data.message);
-        } else {
-            // create
-            const newCategory = await apiClient.post("/category", {
-                name: nameCategory.value,
-            });
-            alert(newCategory.data.message);
+  try {
+    if (isEdit.value) {
+      // edit
+      const updateCategory = await apiClient.post(
+        `/category/${id.value}?_method=PUT`,
+        {
+          name: nameCategory.value,
         }
-        await fetchCategory();
-    } catch (error) {
-        console.error("Error in actionCategory:", error);
-    } finally {
-        clearInputForm();
-        closeForm();
+      );
+      alert(updateCategory.data.message);
+    } else {
+      // create
+      const newCategory = await apiClient.post("/category", {
+        name: nameCategory.value,
+      });
+      alert(newCategory.data.message);
     }
+    await fetchCategory();
+  } catch (error) {
+    console.error("Error in actionCategory:", error);
+  } finally {
+    clearInputForm();
+    closeForm();
+  }
 };
 
 onMounted(() => {
-    fetchCategory();
+  fetchCategory();
 });
 </script>
 
