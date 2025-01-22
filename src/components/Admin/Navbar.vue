@@ -6,7 +6,7 @@
         <span class="material-icons">notifications</span>
       </button>
       <div class="relative">
-        <button @click="toggleDropdown" class="flex items-center space-x-2">
+        <button class="flex items-center space-x-2">
           <img
             src="https://via.placeholder.com/40"
             alt="Profile"
@@ -15,7 +15,6 @@
           <span class="font-semibold">Admin</span>
         </button>
         <div
-          v-if="dropdownOpen"
           class="absolute right-0 mt-2 w-48 bg-white shadow-md rounded-md py-2"
         >
           <a

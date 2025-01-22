@@ -15,5 +15,12 @@ export const useProductsStore = defineStore("product", () => {
     }
   };
 
-  return { products, getProduct };
+  const getProductById = async (id) => {
+    try {
+      const response = await apiClient.get(`/product/${id}`);
+      return response.data.data;
+    } catch (error) {}
+  };
+
+  return { products, getProduct, getProductById };
 });

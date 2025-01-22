@@ -6,6 +6,7 @@ import Register from "@/views/Register.vue";
 import VerifyAccount from "@/views/VerifyAccount.vue";
 import Category from "@/views/Admin/Category.vue";
 import Profile from "@/views/Profile.vue";
+import DetailProduct from "@/views/DetailProduct.vue";
 
 const routes = [
   {
@@ -19,6 +20,13 @@ const routes = [
   {
     path: "/profile/:id",
     component: Profile,
+    meta: {
+      layout: "Default",
+    },
+  },
+  {
+    path: "/product/:id",
+    component: DetailProduct,
     meta: {
       layout: "Default",
     },
