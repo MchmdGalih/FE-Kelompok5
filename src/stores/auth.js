@@ -10,6 +10,7 @@ export const authStore = defineStore("auth", () => {
   const token = ref(
     localStorage.getItem("token") ? localStorage.getItem("token") : null
   );
+
   const currentUser = ref(
     localStorage.getItem("user")
       ? JSON.parse(localStorage.getItem("user"))
@@ -38,8 +39,8 @@ export const authStore = defineStore("auth", () => {
     try {
       const { data } = await apiClient.post("/auth/login", { email, password });
       token.value = data.token;
-      localStorage.setItem("token", token.value);
       currentUser.value = data.user;
+      localStorage.setItem("token", token.value);
       localStorage.setItem("user", JSON.stringify(currentUser.value));
       router.replace("/verify-account");
     } catch (error) {
@@ -56,8 +57,8 @@ export const authStore = defineStore("auth", () => {
       });
 
       token.value = null;
-      localStorage.removeItem("token");
       currentUser.value = null;
+      localStorage.removeItem("token");
       localStorage.removeItem("user");
 
       alert(data.message);
@@ -74,8 +75,8 @@ export const authStore = defineStore("auth", () => {
         },
       });
 
-      currentUser.value = data.data;
-      localStorage.setItem("user", JSON.stringify(currentUser.value));
+      currentUser.value = data.user;
+      localStorage.setItem("user", JSON.stringify(currentUser));
     } catch (error) {
       console.log(error.message);
     }
