@@ -1,7 +1,7 @@
 <template>
-  <div class="navbar bg-teal-700 px-6">
+  <div class="navbar bg-blue-500 px-6">
     <div class="flex-1 gap-3">
-      <RouterLink to="/" class="btn btn-ghost normal-case text-3xl"
+      <RouterLink to="/" class="btn btn-ghost normal-case text-white text-3xl"
         >TokoKita</RouterLink
       >
     </div>
