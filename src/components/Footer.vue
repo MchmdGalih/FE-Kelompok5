@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer bg-teal-700 text-neutral-content p-10">
+  <footer class="footer bg-blue-500 text-white p-10">
     <nav>
       <h6 class="footer-title">Services</h6>
       <a class="link link-hover">Branding</a>

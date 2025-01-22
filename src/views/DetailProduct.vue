@@ -18,23 +18,10 @@
           <p>{{ formatter.format(productDetail.price) }}</p>
           <p>Stock: {{ productDetail.stock }}</p>
 
-          <div
-            class="card-actions justify-between"
-            v-if="productDetail.stock > 0"
-          >
-            <select
-              class="select select-bordered w-20"
-              v-model="productDetail.qty"
-            >
-              <option
-                v-for="qty in productDetail.stock"
-                :key="qty"
-                :value="qty"
-              >
-                {{ qty }}
-              </option>
-            </select>
-            <button class="btn btn-primary" @click="openModal">Buy</button>
+          <div v-if="productDetail.stock > 0">
+            <button class="btn w-full btn-primary" @click="openModal">
+              Buy
+            </button>
           </div>
           <div v-else class="text-red-500 font-bold">Stok habis</div>
         </div>
