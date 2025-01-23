@@ -73,8 +73,10 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { apiClient } from "../config/api";
+import { authStore } from "@/stores/auth";
 
 // State Management
+const store = authStore();
 const nameCategory = ref("");
 const inputAction = ref(false);
 const categoryData = ref([]);
@@ -118,7 +120,11 @@ const handleEdit = (item) => {
 const handleDelete = async (itemId) => {
   if (!confirm("Are you sure you want to delete this category?")) return;
   try {
-    const response = await apiClient.post(`/category/${itemId}?_method=DELETE`);
+    const response = await apiClient.post(`/category/${itemId}?_method=DELETE`, null,{
+      headers : {
+        Authorization:`Bearer ${store.token}`
+      }
+    });
     alert(response.data.message || "Category deleted successfully.");
     await fetchCategory();
   } catch (error) {
@@ -129,29 +135,45 @@ const handleDelete = async (itemId) => {
 
 const actionCategory = async () => {
   try {
+    let response;
+
     if (isEdit.value) {
       // Update existing category
-      const response = await apiClient.post(
+      response = await apiClient.post(
         `/category/${id.value}?_method=PUT`,
-        { name: nameCategory.value }
+        { name: nameCategory.value },
+        {
+          headers: { Authorization: `Bearer ${store.token}` },
+        }
       );
       alert(response.data.message || "Category updated successfully.");
     } else {
       // Create new category
-      const response = await apiClient.post("/category", {
-        name: nameCategory.value,
-      });
+      response = await apiClient.post(
+        "/category",
+        { name: nameCategory.value },
+        {
+          headers: { Authorization: `Bearer ${store.token}` },
+        }
+      );
       alert(response.data.message || "Category added successfully.");
     }
-    await fetchCategory();
+
+    await fetchCategory(); // Refresh data setelah operasi berhasil
+    closeForm(); // Tutup form
   } catch (error) {
-    console.error("Error in actionCategory:", error);
-    alert("Failed to save category. Please try again later.");
-  } finally {
-    closeForm();
+    if (error.response) {
+      console.error("Server responded with:", error.response);
+      alert(error.response.data.message || "An error occurred.");
+    } else {
+      console.error("Error:", error);
+      alert("Failed to save category. Please check your network or try again later.");
+    }
   }
 };
+
 
 // Lifecycle Hook
 onMounted(fetchCategory);
 </script>
+  
