@@ -25,7 +25,7 @@
         />
       </div>
 
-      <h1 class="text-4xl font-bold text-black mb-4 font-sans">Recommended for you</h1>
+      <h1 class="text-4xl font-bold text-black mb-4 font-sans bg-gradient-to-r bg-gray-600 to-white bg-clip-text text-transparent">Recommended for you</h1>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Tampilkan hasil pencarian -->
         <CardProduct :dataProps="filteredProducts" />

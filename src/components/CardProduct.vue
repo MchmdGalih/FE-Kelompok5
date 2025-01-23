@@ -1,14 +1,14 @@
 <template>
   <div
-    class="card card-compact bg-base-100 md:w-96 sm:w-full shadow-xl"
+    class="card card-compact bg-base-100 md:w-90 sm:w-full shadow-xl gap-4"
     v-for="data in dataProps"
     :key="data.id"
   >
-    <figure class="w-full h-[300px]">
+    <figure class="w-full h-[260px]">
       <img :src="data.image" alt="Shoes" class="w-full h-full object-cover" />
     </figure>
     <div class="card-body">
-      <h2 class="card-title">{{ data.name }}</h2>
+      <h2 class="card-title capitalize font-mono font-bold bg-gradient-to-r from-blue-600 to-purple-700 bg-clip-text text-transparent  ">{{ data.name }}</h2>
       <p>{{ data.description }}</p>
       <p>{{ formatter.format(data.price) }}</p>
       <p>stock: {{ data.stock }}</p>
