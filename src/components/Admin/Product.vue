@@ -103,8 +103,8 @@ const handleSubmit = async () => {
   try {
     const endpoint = props.isEdit ? `/product/${data.id}?_method=put` : "/product";
     await apiClient.post(endpoint, formData, { headers: { "Content-Type": "multipart/form-data" } });
-    alert(props.isEdit ? "Product updated successfully" : "Product added successfully");
-    router.push("/product");
+    alert(props.isEdit ? "Product berhasil di update" : "Product berhasil dibuat");
+    router.push("/dashboard/product");
   } catch (error) {
     alert(error.response?.data?.message || "An error occurred");
   }
@@ -114,8 +114,8 @@ const handleDelete = async () => {
   if (!confirm("Are you sure you want to delete this product?")) return;
   try {
     await apiClient.delete(`/product/${data.id}`);
-    alert("Product deleted successfully");
-    router.push("/product");
+    alert("Product berhasil di hapus");
+    router.push("dashboard/product");
   } catch (error) {
     alert(error.response?.data?.message || "An error occurred");
   }
