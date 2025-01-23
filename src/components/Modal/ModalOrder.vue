@@ -2,14 +2,14 @@
   <div
     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-55"
   >
-    <div class="bg-white p-6 rounded shadow-lg w-1/2 relative">
+    <div class="bg-white py-6 px-8 rounded shadow-lg w-96 relative">
       <button
         class="absolute top-2 right-1 text-2xl text-black rounded-full font-bold"
         @click="closeModal"
       >
         X
       </button>
-      <figure class="mb-4">
+      <figure>
         <img class="w-full h-48 object-cover rounded" :src="dataProps.image" />
       </figure>
       <h2 class="text-lg font-bold">{{ dataProps.name }}</h2>
@@ -53,6 +53,14 @@
           />
         </div>
 
+        <select
+          class="select select-bordered select-xs w-full max-w-xs"
+          v-model="data.quantity"
+        >
+          <option v-for="stock in dataProps.stock" :key="stock">
+            {{ stock }}
+          </option>
+        </select>
         <div class="form-control w-full mt-2">
           <button class="btn btn-primary">Order</button>
         </div>
@@ -77,7 +85,8 @@ const data = reactive({
   first_name: "",
   last_name: "",
   address: "",
-  quantity: 0,
+  quantity: 1,
+  total_price: "",
 });
 
 const emit = defineEmits(["close-modal", "kirim-data"]);
@@ -90,6 +99,10 @@ const order = () => {
     product_id: props.dataProps.id,
     first_name: data.first_name,
     last_name: data.last_name,
+    address: data.address,
+    quantity: data.quantity,
+    total_price: props.dataProps.price * data.quantity,
   });
+  console.log("-->", data.quantity);
 };
 </script>

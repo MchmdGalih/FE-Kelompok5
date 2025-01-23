@@ -75,4 +75,8 @@
 import { authStore } from "@/stores/auth";
 const auth = authStore();
 const user = auth.currentUser;
+
+const onLogout = async () => {
+  await auth.logout();
+};
 </script>
