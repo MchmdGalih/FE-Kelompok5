@@ -47,7 +47,7 @@
         </router-link>
       </li>
       <li>
-        <router-link to="/products">
+        <router-link to="/dashboard/product">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5"
