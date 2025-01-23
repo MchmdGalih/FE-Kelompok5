@@ -1,13 +1,16 @@
 <template>
-  <form class="card-body w-1/2" @submit.prevent="onSubmit">
+  <form
+    class="card-body w-1/2 border border-black rounded-md text-black"
+    @submit.prevent="onSubmit"
+  >
     <div class="form-control" v-if="isRegister">
       <label class="label">
-        <span class="label-text">Name</span>
+        <span class="label-text text-black">Name</span>
       </label>
       <input
         type="text"
         placeholder="username"
-        class="input input-bordered"
+        class="input input-bordered bg-white text-black"
         v-model="formData.name"
       />
       <p class="invalid" v-for="error of v$.name.$errors" :key="error.$uid">
@@ -17,12 +20,12 @@
 
     <div class="form-control">
       <label class="label">
-        <span class="label-text">Email</span>
+        <span class="label-text text-black">Email</span>
       </label>
       <input
         type="email"
         placeholder="email"
-        class="input input-bordered"
+        class="input input-bordered bg-white text-black"
         v-model="formData.email"
       />
     </div>
@@ -31,12 +34,12 @@
     </p>
     <div class="form-control">
       <label class="label">
-        <span class="label-text">Password</span>
+        <span class="label-text text-black">Password</span>
       </label>
       <input
         type="password"
         placeholder="password"
-        class="input input-bordered"
+        class="input input-bordered bg-white text-black"
         v-model="formData.password"
       />
     </div>
@@ -46,12 +49,14 @@
 
     <div class="form-control" v-if="isRegister">
       <label class="label">
-        <span class="label-text">Password Confirmation</span>
+        <span class="label-text bg-white text-black"
+          >Password Confirmation</span
+        >
       </label>
       <input
         type="password"
         placeholder="password"
-        class="input input-bordered"
+        class="input border border-blue-400 bg-white text-black"
         v-model="formData.password_confirmation"
       />
       <p class="invalid" v-for="error of v$.name.$errors" :key="error.$uid">
@@ -68,7 +73,11 @@
     </p>
 
     <div class="form-control mt-6">
-      <button class="btn btn-primary" type="submit" :disabled="loading">
+      <button
+        class="btn btn-primary text-white font-bold"
+        type="submit"
+        :disabled="loading"
+      >
         {{ isRegister ? "Register" : "Login" }}
       </button>
     </div>

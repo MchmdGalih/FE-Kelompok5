@@ -7,8 +7,10 @@
             class="ring-primary ring-offset-base-100 w-24 rounded-full ring ring-offset-2"
           >
             <img
-              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+              v-if="store.currentUser"
+              :src="store.currentUser.profile?.image"
             />
+            <img v-else src="" />
           </div>
         </div>
 
@@ -37,12 +39,12 @@
             <input
               type="file"
               class="file-input file-input-ghost bg-white border-black w-full"
-              @onchange="handleUploadFile"
+              @change="handleImage"
             />
           </div>
 
-          <div class="w-full text-center" v-if="isLoading">
-            <p>Loading....</p>
+          <div class="w-full text-center">
+            <button type="submit" class="btn w-full bg-blue-600">Submit</button>
           </div>
         </form>
       </div>
@@ -53,19 +55,39 @@
 <script setup>
 import Default from "@/layouts/Default.vue";
 import { authStore } from "@/stores/auth";
-import { reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 
 const isLoading = ref(false);
 const store = authStore();
-const user = store.currentUser;
-
 const payload = reactive({
-  id: "",
-  age: "",
+  age: 0,
   bio: "",
   image: null,
 });
 
+const handleImage = (e) => {
+  const selectedFile = e.target.files[0];
+  payload.image = selectedFile;
+};
 
+const handleSubmit = async () => {
+  const formData = new FormData();
+  formData.append("age", payload.age);
+  formData.append("bio", payload.bio);
 
+  if (payload.image) {
+    formData.append("image", payload.image);
+  }
+
+  try {
+    const res = await store.uploadProfile(formData);
+    await store.getUserLogged();
+  } catch (error) {
+    throw error;
+  }
+};
+
+onMounted(async () => {
+  await store.getUserLogged();
+});
 </script>
