@@ -16,13 +16,12 @@
     </div>
 
     <div class="py-4 px-10 mt-4">
-      <!-- Input untuk fitur pencarian -->
       <div class="mb-6">
         <input
           type="text"
           v-model="searchQuery"
-          class="w-1/2 px-4 py-2 border rounded-md"
-          placeholder="Search products..."
+          class="w-full px-4 py-2 border rounded-md"
+          placeholder="Cari Product Disini..."
         />
       </div>
 
@@ -46,7 +45,7 @@ import CardProduct from "@/components/CardProduct.vue";
 const category = useCategoryStore();
 const product = useProductsStore();
 const isLoading = ref(true);
-const searchQuery = ref(""); // Kata kunci pencarian
+const searchQuery = ref("");
 
 const handleGetCategory = async () => {
   try {
@@ -70,7 +69,6 @@ const handleGetProduct = async () => {
   }
 };
 
-// Filter produk berdasarkan kata kunci pencarian
 const filteredProducts = computed(() => {
   if (!searchQuery.value) {
     return product.products;
