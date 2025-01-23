@@ -70,41 +70,42 @@
     </div>
   </section>
 </template>
-
 <script setup>
-import { apiClient } from "../config/api";
-import { onMounted, ref } from "vue";
+import { ref, onMounted } from "vue";
+import { apiClient } from "@/config/api";
 
+// State Management
 const nameCategory = ref("");
 const inputAction = ref(false);
 const categoryData = ref([]);
 const isEdit = ref(false);
 const id = ref(null);
 
-const handleDelete = async (id) => {
+// Functions
+const fetchCategory = async () => {
   try {
-    const deleteCategory = await apiClient.post(
-      `/category/${id}?_method=DELETE`
-    );
-    alert(deleteCategory.data.message);
-    await fetchCategory();
+    const { data } = await apiClient.get("/category");
+    categoryData.value = data.data || [];
   } catch (error) {
-    console.error("Error deleting category:", error);
-  } finally {
-    clearInputForm();
-    closeForm();
+    console.error("Error fetching categories:", error);
+    alert("Failed to fetch categories. Please try again later.");
   }
+};
+
+const tambahForm = () => {
+  clearInputForm();
+  inputAction.value = true;
+};
+
+const closeForm = () => {
+  clearInputForm();
+  inputAction.value = false;
 };
 
 const clearInputForm = () => {
   nameCategory.value = "";
   isEdit.value = false;
   id.value = null;
-};
-
-const tambahForm = () => {
-  clearInputForm();
-  inputAction.value = true;
 };
 
 const handleEdit = (item) => {
@@ -114,48 +115,43 @@ const handleEdit = (item) => {
   nameCategory.value = item.name;
 };
 
-const closeForm = () => {
-  inputAction.value = false;
-};
-
-const fetchCategory = async () => {
+const handleDelete = async (itemId) => {
+  if (!confirm("Are you sure you want to delete this category?")) return;
   try {
-    const { data } = await apiClient.get("/category");
-    categoryData.value = data.data;
+    const response = await apiClient.post(`/category/${itemId}?_method=DELETE`);
+    alert(response.data.message || "Category deleted successfully.");
+    await fetchCategory();
   } catch (error) {
-    console.error("Error fetching categories:", error);
+    console.error("Error deleting category:", error);
+    alert("Failed to delete category. Please try again later.");
   }
 };
 
 const actionCategory = async () => {
   try {
     if (isEdit.value) {
-      // edit
-      const updateCategory = await apiClient.post(
+      // Update existing category
+      const response = await apiClient.post(
         `/category/${id.value}?_method=PUT`,
-        {
-          name: nameCategory.value,
-        }
+        { name: nameCategory.value }
       );
-      alert(updateCategory.data.message);
+      alert(response.data.message || "Category updated successfully.");
     } else {
-      // create
-      const newCategory = await apiClient.post("/category", {
+      // Create new category
+      const response = await apiClient.post("/category", {
         name: nameCategory.value,
       });
-      alert(newCategory.data.message);
+      alert(response.data.message || "Category added successfully.");
     }
     await fetchCategory();
   } catch (error) {
     console.error("Error in actionCategory:", error);
+    alert("Failed to save category. Please try again later.");
   } finally {
-    clearInputForm();
     closeForm();
   }
 };
 
-onMounted(() => {
-  fetchCategory();
-});
+// Lifecycle Hook
+onMounted(fetchCategory);
 </script>
-

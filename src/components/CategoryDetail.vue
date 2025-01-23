@@ -1,55 +1,117 @@
 <template>
-  <div class="container mx-auto px-4 py-6">
-    <h2 class="text-2xl font-bold mb-2">{{ category.name }}</h2>
-    <p class="text-gray-700 mb-6">{{ category.description }}</p>
-
-    <h3 class="text-xl font-semibold mb-4">Produk dalam Kategori:</h3>
-    <ul class="space-y-6">
-      <li 
-        v-for="product in category.product" 
-        :key="product.id" 
-        class="flex items-start space-x-6"
-      >
-        <img 
-          :src="product.image" 
-          :alt="product.name" 
-          class="w-48 h-48 object-cover rounded-lg shadow-md" 
-        />
-        <div class="flex-1">
-          <h4 class="text-lg font-semibold mb-1">{{ product.name }}</h4>
-          <p class="text-gray-600">{{ product.description }}</p>
-          <div class="card-actions mt-5">
-            <button class="btn btn-primary">Buy Now</button>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
+  <h1 class="text-3xl text-info text-center">Halaman Category</h1>
+  <section class="my-3" v-show="inputAction">
+    <h2 class="text-lg text-info">{{ isEdit ? "Edit" : "Tambah" }} Category</h2>
+    <form @submit.prevent="actionCategory">
+      <input
+        type="text"
+        placeholder="Masukan nama category"
+        class="input input-bordered w-full mt-2"
+        v-model="nameCategory"
+      />
+      <div class="flex gap-5">
+        <button class="btn btn-primary btn-block mt-3">
+          {{ isEdit ? "Edit" : "Tambah" }}
+        </button>
+        <button class="btn btn-error btn-block mt-3" type="button" @click="closeForm">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </section>
+  <section>
+    <div class="overflow-x-auto">
+      <div class="flex justify-between">
+        <h2 class="text-lg font-bold text-info my-5 p-5">Tampil Category</h2>
+        <button @click="tambahForm" class="btn btn-error btn-sm mr-4 px-4 py-2 mt-8 rounded-xl">
+          Add
+        </button>
+      </div>
+      <table class="table table-zebra">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, key) in categoryStore.category" :key="item.id">
+            <th>{{ key + 1 }}</th>
+            <td>{{ item.name }}</td>
+            <td class="flex gap-5">
+              <input type="button" class="btn btn-primary btn-sm" value="Edit" @click="handleEdit(item)" />
+              <input type="button" class="btn btn-error btn-sm" value="Delete" @click="handleDelete(item.id)" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 </template>
 
 <script setup>
+import { ref, onMounted } from "vue";
 import { useCategoryStore } from "@/stores/category";
-import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
 
-const getCategory = useCategoryStore();
-const route = useRoute();
-const category = ref({});
+const categoryStore = useCategoryStore();
+const nameCategory = ref("");
+const inputAction = ref(false);
+const isEdit = ref(false);
+const id = ref(null);
 
-const handleGet = async () => {
+const clearInputForm = () => {
+  nameCategory.value = "";
+  isEdit.value = false;
+  id.value = null;
+};
+
+const tambahForm = () => {
+  clearInputForm();
+  inputAction.value = true;
+};
+
+const handleEdit = (item) => {
+  inputAction.value = true;
+  isEdit.value = true;
+  id.value = item.id;
+  nameCategory.value = item.name;
+};
+
+const closeForm = () => {
+  inputAction.value = false;
+};
+
+const handleDelete = async (id) => {
   try {
-    const res = await getCategory.getCategoryDetail(route.params.id);
-    console.log('res :', res);
-    console.log("route.params.id", route.params.id);
-    if (res) {
-      category.value = res;
+    await categoryStore.deleteCategory(id);
+    alert("Category deleted successfully.");
+  } catch (error) {
+    console.error("Error deleting category:", error);
+  } finally {
+    clearInputForm();
+    closeForm();
+  }
+};
+
+const actionCategory = async () => {
+  try {
+    if (isEdit.value) {
+      await categoryStore.updateCategory(id.value, { name: nameCategory.value });
+      alert("Category updated successfully.");
+    } else {
+      await categoryStore.addCategory({ name: nameCategory.value });
+      alert("Category added successfully.");
     }
   } catch (error) {
-    console.error("Error fetching category details:", error);
+    console.error("Error in actionCategory:", error);
+  } finally {
+    clearInputForm();
+    closeForm();
   }
 };
 
 onMounted(() => {
-  handleGet();
+  categoryStore.getCategory();
 });
 </script>

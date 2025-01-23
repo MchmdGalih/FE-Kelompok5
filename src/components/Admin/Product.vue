@@ -1,4 +1,5 @@
 <template>
+  <h1 class="text-3xl text-info text-center my-10 font-mono">Halaman Product</h1>
 <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
     <label class="form-control w-full">
        <div class="label">
@@ -147,23 +148,23 @@ const handleImage = (e) => {
 // Handler untuk validasi input
 const validateInput = () => {
  if (!data.name?.trim()) {
-   alert('Product name is required');
+   alert('nama produk harus di isi');
    return false;
  }
  if (!data.description?.trim()) {
-   alert('Product description is required');
+   alert('deskripsi produk harus di isi');
    return false;
  }
  if (!data.category_id) {
-   alert('Category is required');
+   alert('category harus diisi ');
    return false;
  }
  if (!data.price || isNaN(Number(data.price)) || Number(data.price) <= 0) {
-   alert('Please enter a valid price');
+   alert('Tolong masukan harga');
    return false;
  }
  if (!data.stock || isNaN(parseInt(data.stock)) || parseInt(data.stock) < 0) {
-   alert('Please enter a valid stock quantity');
+   alert('tolong masukan stock');
    return false;
  }
  return true;
@@ -178,14 +179,11 @@ const handleSubmit = async () => {
    formData.append("name", String(data.name).trim());
    formData.append("price", Number(data.price));
    formData.append("description", String(data.description).trim());
-   formData.append("category_id", parseInt(data.category_id));
+   formData.append("category_id",(data.category_id));
    formData.append("stock", parseInt(data.stock));
+
    if (data.image) {
      formData.append("image", data.image);
-   }
-
-   for (let pair of formData.entries()) {
-     console.log('Form data:', pair[0] + ': ' + pair[1]);
    }
 
    let response;
@@ -193,13 +191,13 @@ const handleSubmit = async () => {
      response = await apiClient.post(`/product/${data.id}?_method=put`, formData, {
        headers: { 'Content-Type': 'multipart/form-data' }
      });
-     alert("Product updated successfully");
+     alert("Berhasil mengupdate product");
    } else {
     response = await apiClient.post('/product', formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
 });
-     console.log('Product added:', response);
-     alert("Product added successfully");
+     console.log('Menambahkan product:', response);
+     alert("Berhasil menambahkan product");
    }
    
    router.push("/product");

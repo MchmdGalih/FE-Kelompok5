@@ -24,3 +24,4 @@ export const useProductsStore = defineStore("product", () => {
 
   return { products, getProduct, getProductById };
 });
+ 
