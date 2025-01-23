@@ -43,7 +43,7 @@
         <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
           <div class="w-10 rounded-full">
             <img
-              v-if="auth.currentUser.profile"
+              v-if="auth.currentUser?.profile"
               alt="Tailwind CSS Navbar component"
               :src="auth.currentUser.profile.image"
             />
