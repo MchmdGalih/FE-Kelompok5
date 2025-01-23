@@ -1,19 +1,61 @@
 <template>
-  <section class="py-4">
-    <div class="container mx-auto md:px-40 px-5">
-      <div class="flex">
-        <input
-          class="border bg-white text-black border-cyan-400 py-2 px-4 w-full rounded-1-full focus:outline-none focus:ring-2 focus:ring-cyan-400"
-          type="text"
-          placeholder="Search Products ..."
-        />
-        <button
-          class="bg-cyan-500 hover:bg-cyan-600 text-white py-2 px-4 rounded-r-full"
-          type="submit"
-        >
-          Search
-        </button>
+  <div>
+    <!-- Search -->
+    <div class="mb-4">
+      <input
+        type="text"
+        v-model="searchQuery"
+        placeholder="Search products..."
+        class="input input-bordered w-full"
+      />
+    </div>
+
+    <!-- Product Cards -->
+    <div
+      class="card card-compact bg-base-100 md:w-96 sm:w-full shadow-xl"
+      v-for="data in filteredProducts"
+      :key="data.id"
+    >
+      <figure class="w-full h-[300px]">
+        <img :src="data.image" alt="Shoes" class="w-full h-full object-cover" />
+      </figure>
+      <div class="card-body">
+        <h2 class="card-title">{{ data.name }}</h2>
+        <p>{{ data.description }}</p>
+        <p>{{ formatter.format(data.price) }}</p>
+        <p>stock: {{ data.stock }}</p>
+        <div class="card-actions justify-end">
+          <RouterLink :to="`/product/${data.id}`" class="btn btn-primary"
+            >Buy Now</RouterLink
+          >
+        </div>
       </div>
     </div>
-  </section>
+  </div>
 </template>
+
+<script setup>
+import { ref, computed } from "vue";
+import { formatter } from "@/utils/formatted";
+import { RouterLink } from "vue-router";
+
+// Data props
+const props = defineProps({
+  dataProps: {
+    type: Array,
+    default: [],
+  },
+});
+
+// Reactive search query
+const searchQuery = ref("");
+
+// Computed property for filtered products
+const filteredProducts = computed(() =>
+  props.dataProps.filter((product) =>
+    product.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+);
+</script>
+
+

@@ -66,29 +66,6 @@ const payload = reactive({
   image: null,
 });
 
-const handleUploadFile = (e) => {
-  const selectedFile = e.target.files[0];
-  payload.image = selectedFile;
-};
 
-const handleSubmit = async () => {
-  isLoading.value = true;
 
-  const formData = new FormData();
-  formData.append("age", payload.age);
-  formData.append("bio", payload.bio);
-};
-
-if (form.image) {
-  formData.append("image", payload.image);
-
-  try {
-    const res = await store.updateProfile(formData);
-    console.log(res);
-  } catch (error) {
-    console.log(error.message);
-  } finally {
-    isLoading.value = false;
-  }
-}
 </script>

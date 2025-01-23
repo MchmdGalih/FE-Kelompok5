@@ -121,6 +121,10 @@ export const authStore = defineStore("auth", () => {
     }
   }
 
+  async function profile () {
+    
+  }
+
   return {
     token,
     register,
