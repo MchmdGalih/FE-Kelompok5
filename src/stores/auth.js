@@ -17,6 +17,12 @@ export const authStore = defineStore("auth", () => {
       : null
   );
 
+  const profile = ref(
+    localStorage.getItem("profile")
+      ? JSON.parse(localStorage.getItem("profile"))
+      : null
+  );
+
   async function register({ name, email, password, password_confirmation }) {
     try {
       const { data } = await apiClient.post("/auth/register", {
@@ -58,8 +64,10 @@ export const authStore = defineStore("auth", () => {
 
       token.value = null;
       currentUser.value = null;
+      profile.value = null;
       localStorage.removeItem("token");
       localStorage.removeItem("user");
+      localStorage.removeItem("profile");
 
       alert(data.message);
       router.replace("/login");
@@ -77,6 +85,7 @@ export const authStore = defineStore("auth", () => {
 
       currentUser.value = data.user;
       localStorage.setItem("user", JSON.stringify(currentUser));
+      return data.user;
     } catch (error) {
       console.log(error.message);
     }
@@ -121,6 +130,21 @@ export const authStore = defineStore("auth", () => {
     }
   }
 
+  async function uploadProfile(payload) {
+    try {
+      const { data } = await apiClient.post("/auth/profile", payload, {
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+        },
+      });
+      profile.value = data.user;
+      localStorage.setItem("profile", JSON.stringify(profile.value));
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return {
     token,
     register,
@@ -130,5 +154,6 @@ export const authStore = defineStore("auth", () => {
     getUserLogged,
     verifyAccount,
     generateOtp,
+    uploadProfile,
   };
 });

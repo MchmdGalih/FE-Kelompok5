@@ -43,6 +43,12 @@
         <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
           <div class="w-10 rounded-full">
             <img
+              v-if="auth.currentUser?.profile"
+              alt="Tailwind CSS Navbar component"
+              :src="auth.currentUser.profile.image"
+            />
+            <img
+              v-else
               alt="Tailwind CSS Navbar component"
               src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
             />
@@ -75,4 +81,8 @@
 import { authStore } from "@/stores/auth";
 const auth = authStore();
 const user = auth.currentUser;
+
+const onLogout = async () => {
+  await auth.logout();
+};
 </script>

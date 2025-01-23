@@ -1,6 +1,6 @@
 <template>
   <Default>
-    <div class="flex justify-center items-center py-10">
+    <div class="px-4 py-4 flex justify-center">
       <div class="card bg-base-100 w-96 shadow-xl">
         <figure class="h-[400px]">
           <img
@@ -26,13 +26,14 @@
           <div v-else class="text-red-500 font-bold">Stok habis</div>
         </div>
       </div>
+
+      <ModalOrder
+        v-if="showModal"
+        :dataProps="productDetail"
+        @close-modal="closeModal"
+        @kirim-data="handleSubmit"
+      />
     </div>
-    <ModalOrder
-      v-if="showModal"
-      :dataProps="productDetail"
-      @close-modal="closeModal"
-      @kirim-data="handleSubmit"
-    />
   </Default>
 </template>
 
@@ -53,9 +54,6 @@ const showModal = ref(false);
 
 const handleSubmit = async (data) => {
   showModal.value = data[1];
-  data.address = "JL.Bismillah";
-  data.quantity = 2;
-  data.total_price = 100000;
   try {
     const res = await apiClient.post("/order", data, {
       headers: {
