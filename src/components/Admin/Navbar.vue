@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar bg-blue-500 px-6">
+  <div class="navbar px-6">
     <!-- Brand -->
     <div class="flex-1 gap-3">
       <RouterLink to="/" class="btn btn-ghost normal-case text-white text-3xl">
