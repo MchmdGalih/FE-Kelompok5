@@ -6,9 +6,7 @@
       >
     </div>
 
-    <RouterLink
-      to="/dashboard/product"
-      :class="isAdmin ? 'block text-white font-bold' : 'hidden'"
+    <RouterLink to="/dashboard/product" class="text-white font-bold"
       >Dashboard</RouterLink
     >
     <div class="flex-none">
@@ -54,7 +52,7 @@
 import { authStore } from "@/stores/auth";
 const auth = authStore();
 const user = auth.currentUser;
-const isAdmin = auth.currentUser.role.name === "admin";
+// const isAdmin = auth.currentUser.role?.name === "admin";
 const onLogout = async () => {
   await auth.logout();
 };
