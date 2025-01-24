@@ -3,7 +3,7 @@
   <div class="bg-base-200 w-64 min-h-screen p-4">
     <!-- Logo/Brand -->
     <div class="mb-6">
-      <h2 class="text-2xl font-bold">Dashboard Admin</h2>
+      <RouterLink to="/" class="text-2xl font-bold">Dashboard Admin</RouterLink>
     </div>
 
     <!-- Main Menu -->
@@ -140,6 +140,8 @@
 </template>
 
 <script>
+import { RouterLink } from "vue-router";
+
 export default {
   name: "Sidebar",
 };

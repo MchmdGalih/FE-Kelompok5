@@ -5,6 +5,8 @@
         >TokoKita</RouterLink
       >
     </div>
+
+    <RouterLink to="/dashboard/product">Dashboard</RouterLink>
     <div class="flex-none">
       <div class="dropdown dropdown-end">
         <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
