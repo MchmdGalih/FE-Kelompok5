@@ -29,7 +29,7 @@
           <input
             type="text"
             placeholder="first name"
-            class="input input-bordered"
+            class="input input-bordered bg-white text-black"
             v-model="data.first_name"
           />
         </div>
@@ -40,7 +40,7 @@
           <input
             type="text"
             placeholder="first name"
-            class="input input-bordered"
+            class="input input-bordered bg-white text-black"
             v-model="data.last_name"
           />
         </div>
@@ -51,7 +51,7 @@
           <input
             type="text"
             placeholder="first name"
-            class="input input-bordered"
+            class="input input-bordered bg-white text-black"
             v-model="data.address"
           />
         </div>
@@ -108,6 +108,5 @@ const order = () => {
     quantity: data.quantity,
     total_price: props.dataProps.price * data.quantity,
   });
-  console.log("-->", data.quantity);
 };
 </script>

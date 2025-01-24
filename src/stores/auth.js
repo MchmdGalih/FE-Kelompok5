@@ -51,6 +51,7 @@ export const authStore = defineStore("auth", () => {
       alert("Berhasil Login");
       router.replace("/verify-account");
     } catch (error) {
+      alert("Email atau Password anda salah");
       console.log(error.message);
     }
   }

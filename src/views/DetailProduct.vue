@@ -1,32 +1,54 @@
 <template>
   <Default>
-    <div class="px-4 py-4 flex justify-center">
-      <div class="card bg-base-100 w-96 shadow-xl">
-        <figure class="h-[400px]">
+    <div class="w-full p-4">
+      <div class="max-w-6xl mx-auto flex sm:flex-row flex-col h-full p-6">
+        <div class="w-1/2 border border-r-stone-950">
           <img
             :src="productDetail.image"
             :alt="productDetail.name"
-            class="object-cover"
+            class="w-full object-cover"
           />
-        </figure>
-        <div class="card-body">
-          <h2 class="card-title">{{ productDetail.name }}</h2>
-          <span class="badge badge-secondary">{{
-            productDetail.category?.name
-          }}</span>
-          <p>{{ productDetail.description }}</p>
-          <p>{{ formatter.format(productDetail.price) }}</p>
-          <p>Stock: {{ productDetail.stock }}</p>
+        </div>
 
-          <div v-if="productDetail.stock > 0">
-            <button class="btn w-full btn-primary" @click="openModal">
-              Buy
-            </button>
+        <div class="w-full p-4">
+          <div class="flex flex-col gap-1 md:gap-3">
+            <div class="flex gap-2 items-center">
+              <h1 class="font-bold text-black text-md md:text-6xl">
+                {{ productDetail.name }}
+              </h1>
+
+              <span
+                class="p-1 md:p-2 border border-black text-sm md:text-xl text-stone-900 rounded-sm"
+                >{{ productDetail.category?.name }}</span
+              >
+            </div>
+            <h2 class="text-sm md:text-4xl font-semibold text-stone-900">
+              {{ productDetail.description }}
+            </h2>
+            <div class="flex items-center justify-between gap-2">
+              <p class="text-sm md:text-2xl font-medium text-stone-900">
+                Harga: {{ formatter.format(productDetail.price) }}
+              </p>
+
+              <p class="text-sm md:text-xl font-medium text-stone-900">
+                Stok: {{ productDetail.stock }}
+              </p>
+            </div>
+
+            <div class="" v-if="productDetail.stock > 0">
+              <button
+                class="w-full border border-black p-2 rounded-sm font font-medium text-black hover:bg-black hover:text-white transform transition duration-300 ease-in-out"
+                @click="openModal"
+              >
+                Buy
+              </button>
+            </div>
+            <div v-else class="text-sm md:text-xl font-medium text-stone-900">
+              Stok habis
+            </div>
           </div>
-          <div v-else class="text-red-500 font-bold">Stok habis</div>
         </div>
       </div>
-
       <ModalOrder
         v-if="showModal"
         :dataProps="productDetail"

@@ -20,7 +20,7 @@
           </button>
         </div>
       </div>
-      <div class="w-1/2">
+      <div class="w-1/2 max-sm:hidden">
         <img
           class="rounded-lg"
           src="https://gits.id/wp-content/uploads/2021/02/Contoh-Aplikasi-E-commerce-dan-Website.jpg"
