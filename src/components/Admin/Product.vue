@@ -36,10 +36,14 @@
     </label>
 
     <div class="flex gap-4 mt-5">
+      <!-- Button Add -->
       <button class="btn btn-primary flex-1" type="submit">
         {{ isEdit ? "Update" : "Add" }}
       </button>
-      <button v-if="isEdit" type="button" class="btn btn-danger flex-1" @click="handleDelete">Delete</button>
+    </div>
+    <div class="flex gap-4 mt-5">
+      <button type="button" class="btn btn-warning flex-1" @click="handleEdit">Edit</button>
+      <button type="button" class="btn btn-error flex-1" @click="handleDelete">Delete</button>
     </div>
   </form>
 </template>
@@ -49,10 +53,12 @@ import { reactive, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useCategoryStore } from "@/stores/category";
 import { apiClient } from "@/config/api";
+import { authStore } from "@/stores/auth";
 
 const router = useRouter();
 const categoryStore = useCategoryStore();
 const categoryList = ref([]);
+const store = authStore
 
 const props = defineProps({
   isEdit: Boolean,
@@ -102,7 +108,7 @@ const handleSubmit = async () => {
 
   try {
     const endpoint = props.isEdit ? `/product/${data.id}?_method=put` : "/product";
-    await apiClient.post(endpoint, formData, { headers: { "Content-Type": "multipart/form-data" } });
+    await apiClient.post(endpoint, formData, { headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${store.token}` } });
     alert(props.isEdit ? "Product berhasil di update" : "Product berhasil dibuat");
     router.push("/dashboard/product");
   } catch (error) {
@@ -110,12 +116,21 @@ const handleSubmit = async () => {
   }
 };
 
+const handleEdit = () => {
+  // Logika untuk edit bisa disesuaikan
+  alert("Edit button clicked! Implement edit disini.");
+};
+
 const handleDelete = async () => {
-  if (!confirm("Are you sure you want to delete this product?")) return;
+  if (!confirm("Apakah kamu yakin ingin menghapus")) return;
   try {
-    await apiClient.delete(`/product/${data.id}`);
+    await apiClient.delete(`/product/${data.id}`, {
+  headers: {
+    Authorization: `Bearer ${store.token}`
+  }
+});
     alert("Product berhasil di hapus");
-    router.push("dashboard/product");
+    router.push("/dashboard/product");
   } catch (error) {
     alert(error.response?.data?.message || "An error occurred");
   }
