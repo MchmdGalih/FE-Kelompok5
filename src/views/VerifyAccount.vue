@@ -52,7 +52,7 @@
 
 <script setup>
 import { authStore } from "@/stores/auth";
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 
 const auth = authStore();
 const otp_code = ref(null);

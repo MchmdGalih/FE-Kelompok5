@@ -3,7 +3,7 @@
     <Hero />
 
     <div class="px-10">
-      <div class="flex flex-wrap gap-2 py-4">
+      <div class="flex flex-wrap flex-row gap-2 py-4">
         <RouterLink
           class="px-10 py-2 text-black border border-black font-italic rounded-md"
           v-for="item in category.category"
@@ -20,14 +20,16 @@
         <input
           type="text"
           v-model="searchQuery"
-          class="w-full px-4 py-2 border rounded-md"
+          class="w-full px-4 py-2 border rounded-md bg-white text-black"
           placeholder="Cari Product Disini..."
         />
       </div>
 
-      <h1 class="text-4xl font-bold text-black mb-4 font-sans bg-gradient-to-r bg-gray-600 to-white bg-clip-text text-transparent">Recommended for you</h1>
+      <h1 class="text-4xl font-bold text-black mb-4 font-sans">
+        Recommended for you
+      </h1>
+
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Tampilkan hasil pencarian -->
         <CardProduct :dataProps="filteredProducts" />
       </div>
     </div>
@@ -83,4 +85,3 @@ onMounted(() => {
   handleGetProduct();
 });
 </script>
-

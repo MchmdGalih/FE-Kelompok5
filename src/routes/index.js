@@ -9,6 +9,7 @@ import CategoryDetail from "@/views/CategoryDetail.vue";
 import Product from "@/views/Admin/Product.vue";
 import Profile from "@/views/Profile.vue";
 import DetailProduct from "@/views/DetailProduct.vue";
+import { authStore } from "@/stores/auth";
 
 const routes = [
   {
@@ -43,6 +44,7 @@ const routes = [
   {
     path: "/login",
     component: Login,
+    // meta: { isAuth: true },
   },
   {
     path: "/register",
@@ -53,11 +55,11 @@ const routes = [
     component: VerifyAccount,
   },
   {
-
     path: "/dashboard/category",
     component: Category,
     meta: {
       layout: "Dashboard",
+      // isAdmin: true,
     },
   },
   {
@@ -67,11 +69,12 @@ const routes = [
       layout: "Default",
     },
   },
-{
+  {
     path: "/dashboard/product",
     component: Product,
     meta: {
       layout: "Dashboard",
+      isAdmin: true,
     },
   },
 ];
@@ -79,6 +82,22 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const store = authStore();
+  if (to.meta.isAuth && store.token) {
+    alert("Anda sudah login");
+    return next("/");
+  }
+
+  if (to.meta.isAdmin && store.currentUser.role.name !== "admin") {
+    
+    alert("Anda bukan admin");
+    return next("/");
+  }
+
+  next();
 });
 
 export default router;

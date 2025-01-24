@@ -18,6 +18,39 @@
           @submit.prevent="handleSubmit"
           class="mt-4 w-9/12 flex flex-col gap-2 mx-auto"
         >
+          <div v-if="alertType === 'success'" class="alert alert-success">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 shrink-0 stroke-current"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span>{{ alertMsg }}</span>
+          </div>
+
+          <div v-if="alertType === 'error'" class="alert alert-error">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 shrink-0 stroke-current"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span>{{ alertMsg }}</span>
+          </div>
           <div class="mb-1">
             <label class="block text-xl font-bold mb-2">Age</label>
             <input
@@ -57,7 +90,9 @@ import Default from "@/layouts/Default.vue";
 import { authStore } from "@/stores/auth";
 import { onMounted, reactive, ref } from "vue";
 
-const isLoading = ref(false);
+const alertType = ref(null);
+const alertMsg = ref(null);
+
 const store = authStore();
 const payload = reactive({
   age: 0,
@@ -81,8 +116,24 @@ const handleSubmit = async () => {
 
   try {
     const res = await store.uploadProfile(formData);
+
+    alertType.value = "success";
+    alertMsg.value = "Berhasil Upload";
+
+    setTimeout(() => {
+      alertMsg.value = "";
+      alertType.value = "";
+    }, 1000);
+
     await store.getUserLogged();
   } catch (error) {
+    alertType.value = "error";
+    alertMsg.value = "Gagal upload";
+
+    setTimeout(() => {
+      alertMsg.value = "";
+      alertType.value = "";
+    }, 1000);
     throw error;
   }
 };

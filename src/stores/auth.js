@@ -48,8 +48,10 @@ export const authStore = defineStore("auth", () => {
       currentUser.value = data.user;
       localStorage.setItem("token", token.value);
       localStorage.setItem("user", JSON.stringify(currentUser.value));
+      alert("Berhasil Login");
       router.replace("/verify-account");
     } catch (error) {
+      alert("Email atau Password anda salah");
       console.log(error.message);
     }
   }
