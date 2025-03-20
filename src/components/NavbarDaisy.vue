@@ -37,7 +37,12 @@
               }}</span>
             </RouterLink>
           </li>
-
+           <li v-if="user?.role?.name === 'admin'">
+            <RouterLink to="/dashboard">Dashboard</RouterLink>
+          </li>
+          <li v-if="user?.role?.name === 'admin' || user?.role?.name === 'user'">
+            <RouterLink to="/">Home</RouterLink>
+          </li>
           <li>
             <button v-if="user" @click="onLogout">Logout</button>
             <RouterLink v-else to="/login">Login</RouterLink>
